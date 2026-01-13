@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const PORT = 5005;
 
@@ -16,6 +17,10 @@ const students = require("./students.json")
 
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
+app.use(
+  cors({
+    origin : ['http://localhost:5173'],
+  }));
 // ...
 app.use(express.json());
 app.use(morgan("dev"));
@@ -30,7 +35,6 @@ app.use(cookieParser());
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
-
 app.get("/api/cohorts", (req, res)=>{
   res.status(200).json(cohorts);
 });
