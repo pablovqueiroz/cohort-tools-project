@@ -42,7 +42,7 @@ app.use(cookieParser());
 
 //Create Student Routes//
  app.post("/api/students", (req, res) => {
-   CohortModel.create(req.body)
+   StudentModel.create(req.body)
      .then((data) => {
        console.log("student added", data);
        res.status(201).json(data);
@@ -54,28 +54,43 @@ app.use(cookieParser());
   });
 
 
-//Retrieves all of the students for a given cohort
+  
 
-app.get("/api/students/cohort/:cohortId", async (req, res)=>{
-  try {
-    const data = await StudentModel.find({cohort: req.params.cohortId}).populate(
-      "cohort"
-    )
-    console.log("students found: ", data)
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ errorMessage: err });
-  }
-})
+  
+  //Get all Students Routes//
+  app.get("/api/students", async (req, res) => {
+    try {
+      const data = await StudentModel.find().populate(
+        "cohort"
+      );
+      console.log("Students found");
+      res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ errorMessage: err });
+    }
+  });
+  
+  //Retrieves all of the students for a given cohort
+  
+  app.get("/api/students/cohort/:cohortId", async (req, res)=>{
+    try {
+      const data = await StudentModel.find({cohort: req.params.cohortId}).populate(
+        "cohort"
+      )
+      console.log("students found: ", data)
+      res.status(200).json(data);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ errorMessage: err });
+    }
+  })
 
-//Get Student Routes//
-app.get("/api/students", async (req, res) => {
+//Get a  specific student by id//
+app.get("/api/student/:studentId", async (req, res) => {
   try {
-    const data = await StudentModel.find().populate(
-      "cohort"
-    );
-    console.log("Students found");
+    const data = await StudentModel.findById(req.params.studentId);
+    console.log("Student found");
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -84,13 +99,12 @@ app.get("/api/students", async (req, res) => {
 });
 
 //Update a  specific student by id//
-app.put("/api/students/:studentId ", (req, res) => {
-  const { studentID } = req.params;
-
-  StudentModel.findByIdUpdate(studentID, req.body, { new: true }).populate(
+app.put("/api/students/:studentId", (req, res) => {
+  const { studentId } = req.params;
+  StudentModel.findByIdAndUpdate(studentId, req.body, { new: true }).populate(
       "cohort"
-    );
-  then((updateStudent) => {
+    )
+  .then((updateStudent) => {
     console.log("Student Updated", updateStudent);
     res.status(200).json(updateStudent);
   }).catch((err) => {
@@ -142,7 +156,7 @@ app.get("/api/cohorts", async (req, res) => {
 //get a specific Cohort
 app.get("/api/cohorts/:cohortId", async (req, res) => {
   try {
-    const foundOneCohorts = await CohortModel.findById(req.params.petId);
+    const foundOneCohorts = await CohortModel.findById(req.params.cohortId);
     console.log("cohort found: ", foundOneCohorts);
     res.status(200).json(foundOneCohorts)
   } catch (err) {
@@ -154,8 +168,7 @@ app.get("/api/cohorts/:cohortId", async (req, res) => {
 //Updates a specific cohort by id //
 app.put("/api/cohorts/:cohortId", (req, res) => {
   const { cohortId } = req.params;
-
-  Cohort.findByIdUpdate(cohortId, req.body, { new: true });
+  CohortModel.findByIdUpdate(req.params.cohortId, req.body, { new: true });
   then((updateCohort) => {
     console.log("Cohort Updated", updateCohort);
     res.status(200).json(updateCohort);
@@ -167,13 +180,13 @@ app.put("/api/cohorts/:cohortId", (req, res) => {
 
 
 //delete a cohort
-app.delete("/api/cohorts/:cohortId", (req, res) =>{
+app.delete("/api/cohorts/:cohortId", (req, res) => {
   CohortModel.findByIdAndDelete(req.params.cohortId)
-  .then((data)=>{
-    console.log("cohort deleted: ", data);
-    res.status(500).json(data);
-  })
-  .catch((err) => {
+    .then((data) => {
+      console.log("cohort deleted: ", data);
+      res.status(200).json(data);
+    })
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ errorMessage: err });
     });

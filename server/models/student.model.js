@@ -8,21 +8,18 @@ const studentSchema = new Schema({
     },
     lastName: {
         type: String,
-        require:true
+        required:true
     },
     email:{
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     phone:{
         type: Number,
-        require: true,
-        unique: true,
     },
     linkedinUrl: {
         type: String,
-        require: true,
     },
     languages: {
         type: String,
@@ -34,7 +31,6 @@ const studentSchema = new Schema({
     },
     background:{
         type: String,
-        require: true
     },
     image:{
         type: String,
@@ -43,7 +39,6 @@ const studentSchema = new Schema({
     cohort: {
     type: Schema.Types.ObjectId,
     ref: "cohort",
-    required: true,
   },
     projects: {
         type: [String]
