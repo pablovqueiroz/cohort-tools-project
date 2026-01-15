@@ -41,50 +41,44 @@ app.use(cookieParser());
 // Devs Team - Start working on the routes here:
 
 //Create Student Routes//
- app.post("/api/students", (req, res) => {
-   StudentModel.create(req.body)
-     .then((data) => {
-       console.log("student added", data);
-       res.status(201).json(data);
-     })
-     .catch((err) => {
-       console.log(err);
-       res.status(500).json({ errorMessage: err });
-     });
-  });
-
-
-  
-
-  
-  //Get all Students Routes//
-  app.get("/api/students", async (req, res) => {
-    try {
-      const data = await StudentModel.find().populate(
-        "cohort"
-      );
-      console.log("Students found");
-      res.status(200).json(data);
-    } catch (err) {
+app.post("/api/students", (req, res) => {
+  StudentModel.create(req.body)
+    .then((data) => {
+      console.log("student added", data);
+      res.status(201).json(data);
+    })
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ errorMessage: err });
-    }
-  });
-  
-  //Retrieves all of the students for a given cohort
-  
-  app.get("/api/students/cohort/:cohortId", async (req, res)=>{
-    try {
-      const data = await StudentModel.find({cohort: req.params.cohortId}).populate(
-        "cohort"
-      )
-      console.log("students found: ", data)
-      res.status(200).json(data);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ errorMessage: err });
-    }
-  })
+    });
+});
+
+//Get all Students Routes//
+app.get("/api/students", async (req, res) => {
+  try {
+    const data = await StudentModel.find().populate("cohort");
+    console.log("Students found");
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+});
+
+//Retrieves all of the students for a given cohort
+
+app.get("/api/students/cohort/:cohortId", async (req, res) => {
+  try {
+    const data = await StudentModel.find({
+      cohort: req.params.cohortId,
+    }).populate("cohort");
+    console.log("students found: ", data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+});
 
 //Get a  specific student by id//
 app.get("/api/student/:studentId", async (req, res) => {
@@ -101,31 +95,31 @@ app.get("/api/student/:studentId", async (req, res) => {
 //Update a  specific student by id//
 app.put("/api/students/:studentId", (req, res) => {
   const { studentId } = req.params;
-  StudentModel.findByIdAndUpdate(studentId, req.body, { new: true }).populate(
-      "cohort"
-    )
-  .then((updateStudent) => {
-    console.log("Student Updated", updateStudent);
-    res.status(200).json(updateStudent);
-  }).catch((err) => {
-    console.log(err);
-    res.status(500).json({ errorMessage: err });
-  });
+  StudentModel.findByIdAndUpdate(studentId, req.body, { new: true })
+    .populate("cohort")
+    .then((updateStudent) => {
+      console.log("Student Updated", updateStudent);
+      res.status(200).json(updateStudent);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ errorMessage: err });
+    });
 });
 
 //Delete Student by ID
 
- app.delete("/api/students/:studentId", (req, res) => {
-   StudentModel.findByIdAndDelete(req.params.studentId)
-     .then((data) => {
-       console.log("student deleted", data);
-       res.status(200).json(data);
-     })
-     .catch((err) => {
-       console.log(err);
-     res.status(500).json({ errorMessage: err });
-     });
- });
+app.delete("/api/students/:studentId", (req, res) => {
+  StudentModel.findByIdAndDelete(req.params.studentId)
+    .then((data) => {
+      console.log("student deleted", data);
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ errorMessage: err });
+    });
+});
 
 //Create Cohort Routes//
 
@@ -158,7 +152,7 @@ app.get("/api/cohorts/:cohortId", async (req, res) => {
   try {
     const foundOneCohorts = await CohortModel.findById(req.params.cohortId);
     console.log("cohort found: ", foundOneCohorts);
-    res.status(200).json(foundOneCohorts)
+    res.status(200).json(foundOneCohorts);
   } catch (err) {
     console.log(err);
     res.status(500).json({ errorMessage: err });
@@ -177,7 +171,6 @@ app.put("/api/cohorts/:cohortId", (req, res) => {
     res.status(500).json({ errorMessage: err });
   });
 });
-
 
 //delete a cohort
 app.delete("/api/cohorts/:cohortId", (req, res) => {
@@ -204,6 +197,14 @@ app.get("/docs", (req, res) => {
 // app.get("/api/students", (req, res) => {
 //   res.status(200).json(students);
 // });
+
+const {
+  errorHandler,
+  notFoundHandler,
+} = require("./middleware/error-handling");
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 // START SERVER
 app.listen(PORT, () => {
