@@ -55,14 +55,14 @@ function CohortEditPage() {
     };
 
     axios
-      .put(`${API_URL}/api/cohorts/${cohortId}`, requestBody)
+      .put(`${API_URL}/cohorts/${cohortId}`, requestBody)
       .then(() => navigate(`/cohorts/details/${cohortId}`))
       .catch((error) => console.log(error));
   };
 
   const handleDelete = () => {
     axios
-      .delete(`${API_URL}/api/cohorts/${cohort._id}`)
+      .delete(`${API_URL}/cohorts/${cohort._id}`)
       .then(() => navigate(`/dashboard`))
       .catch((error) => console.log(error));
   };
@@ -70,7 +70,7 @@ function CohortEditPage() {
   useEffect(() => {
     const getCohort = () => {
       axios
-        .get(`${API_URL}/api/cohorts/${cohortId}`)
+        .get(`${API_URL}/cohorts/${cohortId}`)
         .then((response) => {
           const oneCohort = response.data;
           setCohort({

@@ -47,7 +47,7 @@ function CohortCreatePage() {
     };
 
     axios
-      .post(`${API_URL}/api/cohorts`, requestBody)
+      .post(`${API_URL}/cohorts`, requestBody)
       .then((response) => {
         const newCohort = response.data;
 

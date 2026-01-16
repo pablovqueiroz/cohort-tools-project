@@ -18,7 +18,7 @@ function CohortDetailsPage() {
 
   const getCohort = useCallback(() => {
     axios
-      .get(`${API_URL}/api/cohorts/${cohortId}`)
+      .get(`${API_URL}/cohorts/${cohortId}`)
       .then((response) => {
         const oneCohort = response.data;
         setCohort(oneCohort);
@@ -28,7 +28,7 @@ function CohortDetailsPage() {
 
   const getStudents = useCallback(() => {
     axios
-      .get(`${API_URL}/api/students/cohort/${cohortId}`)
+      .get(`${API_URL}/students/cohort/${cohortId}`)
       .then((response) => {
         const allStudents = response.data;
         setStudents(allStudents);

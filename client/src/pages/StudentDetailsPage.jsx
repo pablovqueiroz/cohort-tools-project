@@ -15,7 +15,7 @@ function StudentDetailsPage() {
   useEffect(() => {
     const getStudent = () => {
       axios
-        .get(`${API_URL}/api/students/${studentId}`)
+        .get(`${API_URL}/students/${studentId}`)
         .then((response) => {
           const oneStudent = response.data;
           setStudent(oneStudent);
@@ -57,7 +57,7 @@ function StudentDetailsPage() {
                 <strong>LinkedIn:</strong> {student.linkedinUrl}
               </p>
               <p className="text-left mb-2 border-b pb-2">
-                <strong>Languages:</strong> {student.languages.join(", ")}
+                <strong>Languages:</strong> {student.languages?.join(", ") || "N/A"}
               </p>
               <p className="text-left mb-2 border-b pb-2">
                 <strong>Program:</strong> {student.program}

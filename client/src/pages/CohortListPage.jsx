@@ -21,7 +21,7 @@ function CohortListPage() {
     if (programQuery) queryString += `program=${programQuery}`;
 
     axios
-      .get(`${API_URL}/api/cohorts?${queryString}`)
+      .get(`${API_URL}/cohorts?${queryString}`)
       .then((response) => {
         setCohorts(response.data);
       })
@@ -30,7 +30,7 @@ function CohortListPage() {
 
   const getAllCohorts = () => {
     axios
-      .get(`${API_URL}/api/cohorts`)
+      .get(`${API_URL}/cohorts`)
       .then((response) => {
         setCohorts(response.data);
       })

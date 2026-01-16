@@ -267,7 +267,7 @@ function StudentEditPage() {
     setLoading(true);
 
     axios
-      .put(`${API_URL}/api/students/${student._id}`, requestBody)
+      .put(`${API_URL}/students/${student._id}`, requestBody)
       .then(() => {
         navigate(`/students/details/${student._id}`);
       })
@@ -276,7 +276,7 @@ function StudentEditPage() {
 
   const handleDelete = () => {
     axios
-      .delete(`${API_URL}/api/students/${student._id}`)
+      .delete(`${API_URL}/students/${student._id}`)
       .then(() => {
         navigate(`/cohorts/details/${student.cohort._id}`);
       })
@@ -306,7 +306,7 @@ function StudentEditPage() {
   useEffect(() => {
     const getStudent = () => {
       axios
-        .get(`${API_URL}/api/students/${studentId}`)
+        .get(`${API_URL}/students/${studentId}`)
         .then((response) => {
           const studentData = response.data;
           setStudent(studentData);
@@ -316,7 +316,7 @@ function StudentEditPage() {
 
     const getCohorts = () => {
       axios
-        .get(`${API_URL}/api/cohorts`)
+        .get(`${API_URL}/cohorts`)
         .then((response) => {
           const cohortList = response.data;
           setCohorts(cohortList);
