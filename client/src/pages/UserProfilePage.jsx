@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import placeholderImage from "./../assets/placeholder.png";
 
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../context/AuthContext";
 
 // Import the string from the .env with URL of the API/server - http://localhost:5005
 const API_URL = import.meta.env.VITE_API_URL;

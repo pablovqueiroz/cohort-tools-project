@@ -1,7 +1,7 @@
 import logo from "./../assets/logo-ironhack-blue.png";
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar({ toggleSidebar }) {
   const location = useLocation();
