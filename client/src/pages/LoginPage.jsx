@@ -3,10 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-
 // Import the string from the .env with URL of the API/server - http://localhost:5005
 const API_URL = import.meta.env.VITE_API_URL;
-
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -20,23 +18,40 @@ function LoginPage() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    const requestBody = { email, password };
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault();
+  //   const requestBody = { email, password };
 
-    axios
-      .post(`${API_URL}/auth/login`, requestBody)
-      .then((response) => {
-        console.log("JWT token", response.data.authToken);
+  //   axios
+  //     .post(`${API_URL}/auth/login`, requestBody)
+  //     .then((response) => {
+  //       console.log("JWT token", response.data.authToken);
 
-        storeToken(response.data.authToken);
-        authenticateUser();
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
-      });
+  //       storeToken(response.data.authToken);
+  //       authenticateUser();
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       const errorDescription = error.response.data.message;
+  //       setErrorMessage(errorDescription);
+  //     });
+  // };
+
+  const handleLoginSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const requestBody = { email, password };
+
+      const response = await axios.post(`${API_URL}/auth/login`, requestBody);
+
+      storeToken(response.data.authToken);
+      authenticateUser();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      const errorDescription = error.response.data.message;
+      setErrorMessage(errorDescription);
+    }
   };
 
   return (

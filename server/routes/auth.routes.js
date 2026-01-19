@@ -85,6 +85,13 @@ router.post("/login", async (req, res) => {
 //GET /api/users/:id - Retrieves a specific user by id.
 // The route should be protected by the authentication middleware.
 
+//GET /auth/verify - Verifies that the JWT sent by the client is valid
+router.get("/verify", isAuthenticated, (req, res) => {
+  res
+    .status(200)
+    .json({ message: "Token is valid :) ", decodedToken: req.payload });
+});
+
 router.get("/:id", isAuthenticated, async (req, res) => {
   try {
     const { id } = req.params;
@@ -103,11 +110,5 @@ router.get("/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-//GET /auth/verify - Verifies that the JWT sent by the client is valid
-router.get("/verify", isAuthenticated, (req, res) => {
-  res
-    .status(200)
-    .json({ message: "Token is valid :) ", decodedToken: req.payload });
-});
 
 module.exports = router;

@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const data = await CohortModel.find();
-    console.log("Cohorts found: ", data);
+    // console.log("Cohorts found: ", data);
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
 router.get("/:cohortId", async (req, res) => {
   try {
     const foundOneCohorts = await CohortModel.findById(req.params.cohortId);
-    console.log("cohort found: ", foundOneCohorts);
+    // console.log("cohort found: ", foundOneCohorts);
     res.status(200).json(foundOneCohorts);
   } catch (err) {
     console.log(err);

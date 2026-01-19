@@ -16,7 +16,7 @@ function UserProfilePage() {
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   useEffect(() => {
-    const getStudent = () => {
+    const getUser = () => {
       const storedToken = localStorage.getItem("authToken");
 
       if (storedToken) {
@@ -32,6 +32,7 @@ function UserProfilePage() {
           .catch((error) => {
             const errorDescription = error.response.data.message;
             setErrorMessage(errorDescription);
+            setLoading(false);
           });
         }
         else {
@@ -39,8 +40,8 @@ function UserProfilePage() {
         }
     };
 
-    getStudent();
-  }, [user._id]);
+    getUser();
+  }, [user]);
 
   if (errorMessage) return <div>{errorMessage}</div>;
   
@@ -61,14 +62,14 @@ function UserProfilePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-24 mb-4 border-b pb-4">
               <p className="text-left mb-2 border-b pb-2">
-                <strong>Email:</strong> {userProfile.email}
+                <strong>Email:</strong> {userProfile?.email || "N/A"}
               </p>
             </div>
           </>
         )}
       </div>
       
-    </div>
+    </div>  
   );
 }
 
